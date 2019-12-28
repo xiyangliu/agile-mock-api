@@ -48,7 +48,11 @@ app.post('/publish/:appId/:version', async (req, res) => {
         data.mv(`${dest}/data.json`);
       } else {
         await fs.promises.mkdir(dest, { recursive: true });
-        await fs.promises.writeFile(`${dest}/data.json`, data, 'utf8');
+        await fs.promises.writeFile(
+          `${dest}/data.json`,
+          JSON.stringify(data),
+          'utf8'
+        );
       }
 
       const error = await publishData(appId, version);
