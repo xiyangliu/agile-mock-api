@@ -8,7 +8,7 @@ const path = require('path');
 const morgan = require('morgan');
 const _ = require('lodash');
 
-const { publish } = require('./utils');
+const { publishData } = require('./utils');
 
 const app = express();
 
@@ -51,9 +51,9 @@ app.post('/publish/:appId/:version', async (req, res) => {
         await fs.promises.writeFile(`${dest}/data.json`, data, 'utf8');
       }
 
-      const { stderr } = publish(appId, version);
-      if (stderr) {
-        res.status(500).send({ message: '发布失败', error: stderr });
+      const error = await publishData(appId, version);
+      if (error) {
+        res.status(500).send({ message: '发布失败' });
       } else {
         res.send({
           message: '发布成功',
@@ -75,7 +75,6 @@ app.post('/images', async (req, res) => {
       const image = req.files.image;
       image.mv(`./public/images/${image.name}`);
 
-      //send response
       res.send({
         message: '上传成功',
         data: [
