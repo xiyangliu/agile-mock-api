@@ -6,7 +6,7 @@ const publish = async (appId, version) => {
   const dest = `./export`;
   try {
     return ({ stdout, stderr } = await exec(
-      `zip -rj ${dest}/${appId}_${version}.zip ./public/data/${appId}/${version}/data.json ./public/images/${appId}`
+      `zip -rj ${dest}/${appId}_${version}.zip ./public/data/${appId}/${version}/data.json ./public/images`
     ));
   } catch (err) {
     return { stderr: err };

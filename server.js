@@ -1,4 +1,5 @@
 const express = require('express');
+const fs = require('fs');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const serveIndex = require('serve-index');
@@ -37,50 +38,50 @@ app.param('version', (req, res, next, version) => {
 
 app.post('/publish/:appId/:version', async (req, res) => {
   try {
-    if (!req.files || !req.files.data) {
+    const data = (req.files && req.files.data) || req.body;
+    if (!data) {
       res.status(400).send({ message: '无效数据' });
     } else {
-      const data = req.files.data;
       const { appId, version } = req;
-      data.mv(`./public/data/${appId}/${version}/data.json`);
+      const dest = `./public/data/${appId}/${version}/`;
+      if (req.files) {
+        data.mv(`${dest}/data.json`);
+      } else {
+        await fs.promises.mkdir(dest, { recursive: true });
+        await fs.promises.writeFile(`${dest}/data.json`, data, 'utf8');
+      }
 
-      const { stdout, stderr } = publish(appId, version);
+      const { stderr } = publish(appId, version);
       if (stderr) {
         res.status(500).send({ message: '发布失败', error: stderr });
-      }
-      //send response
-      res.send({
-        message: '发布成功',
-        data: {
+      } else {
+        res.send({
+          message: '发布成功',
           appId,
           version
-        }
-      });
+        });
+      }
     }
   } catch (err) {
     res.status(500).send(err);
   }
 });
 
-app.post('/image/:appId', async (req, res) => {
+app.post('/images', async (req, res) => {
   try {
     if (!req.files || !req.files.image) {
       res.status(400).send({ message: '无效图片' });
     } else {
       const image = req.files.image;
-      const { appId } = req;
-      image.mv(`./public/images/${appId}/${image.name}`);
+      image.mv(`./public/images/${image.name}`);
 
       //send response
       res.send({
         message: '上传成功',
-        data: {
-          name: image.name,
-          url: `${process.env.HOST || 'http://localhost'}:${process.env.PORT ||
-            5000}/images/${appId}/${image.name}`,
-          mimetype: image.mimetype,
-          size: image.size
-        }
+        data: [
+          `${process.env.HOST || 'http://localhost'}:${process.env.PORT ||
+            5000}/images/${image.name}`
+        ]
       });
     }
   } catch (err) {
