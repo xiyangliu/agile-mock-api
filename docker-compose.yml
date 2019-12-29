@@ -20,9 +20,9 @@ services:
     ports:
       - "15000:5000"
     volumes:
-      - ./mock/export:/app/export
-      - ./mock/public/data:/app/public/data
-      - ./mock/public/images:/app/public/images
+      - ./export:/app/export
+      - ./public/data:/app/public/data
+      - ./public/images:/app/public/images
 
 networks:
   agile-suite:
