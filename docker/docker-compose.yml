@@ -1,0 +1,29 @@
+version: "3.7"
+services:
+  agile-ui-app:
+    restart: always
+    image: yippeecai/agile-ui-app:latest
+    networks:
+      - agile-suite
+    ports:
+      - "3010:80"
+    volumes:
+      - ./log:/var/log
+    depends_on:
+      - agile-mock-api
+        
+  agile-mock-api:
+    restart: always
+    image: yippeecai/agile-mock-api:latest
+    networks:
+      - agile-suite
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./mock/export:/app/export
+      - ./mock/public/data:/app/public/data
+      - ./mock/public/images:/app/public/images
+
+networks:
+  agile-suite:
+    driver: bridge

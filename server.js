@@ -8,7 +8,7 @@ const path = require('path');
 const morgan = require('morgan');
 const _ = require('lodash');
 
-const { publishData } = require('./utils');
+const { exportData } = require('./utils');
 
 const app = express();
 
@@ -43,7 +43,7 @@ app.post('/publish/:appId/:version', async (req, res) => {
       res.status(400).send({ message: '无效数据' });
     } else {
       const { appId, version } = req;
-      const dest = `./public/data/${appId}/${version}/`;
+      const dest = `./public/data//${appId}/${version}`;
       if (req.files) {
         data.mv(`${dest}/data.json`);
       } else {
@@ -55,7 +55,7 @@ app.post('/publish/:appId/:version', async (req, res) => {
         );
       }
 
-      const error = await publishData(appId, version);
+      const error = await exportData(appId, version);
       if (error) {
         res.status(500).send({ message: '发布失败' });
       } else {
@@ -71,19 +71,20 @@ app.post('/publish/:appId/:version', async (req, res) => {
   }
 });
 
-app.post('/images', async (req, res) => {
+app.post('/images/:appId', async (req, res) => {
   try {
     if (!req.files || !req.files.image) {
       res.status(400).send({ message: '无效图片' });
     } else {
+      const { appId } = req;
       const image = req.files.image;
-      image.mv(`./public/images/${image.name}`);
+      image.mv(`./public/images/${appId}/${image.name}`);
 
       res.send({
         message: '上传成功',
         data: [
           `${process.env.HOST || 'http://localhost'}:${process.env.PORT ||
-            5000}/images/${image.name}`
+            5000}/images/${appId}/${image.name}`
         ]
       });
     }
