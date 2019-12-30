@@ -1,0 +1,36 @@
+[
+	{
+		"id": 234,
+		"createTime": null,
+		"lastModifyTime": null,
+		"version": 0,
+		"productId": "619664680629043200",
+		"productTypeCode": "578160211827621888",
+		"productTypeName": "灯",
+		"productVendorName": "上海顺舟智能科技股份有限_大赛",
+		"category": {
+			"id": 83
+		},
+		"devices": null,
+		"actions": null,
+		"editableProperties": null,
+		"nonEditableProperties": null
+	},
+	{
+		"id": 235,
+		"createTime": null,
+		"lastModifyTime": null,
+		"version": 0,
+		"productId": "642429526940319744",
+		"productTypeCode": "578160211827621888",
+		"productTypeName": "灯",
+		"productVendorName": "Modou",
+		"category": {
+			"id": 83
+		},
+		"devices": null,
+		"actions": null,
+		"editableProperties": null,
+		"nonEditableProperties": null
+	}
+]

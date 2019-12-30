@@ -1,0 +1,42 @@
+[
+    {
+        "id": "getLineChartData1",
+        "name": "获取折线图模拟数据1",
+        "componentType": "lineChart"
+    },
+    {
+        "id": "getLineChartData2",
+        "name": "获取折线图模拟数据2",
+        "componentType": "lineChart"
+    },
+    {
+        "id": "getBarChartData1",
+        "name": "获取柱状图模拟数据1",
+        "componentType": "barChart"
+    },
+    {
+        "id": "getBarChartData2",
+        "name": "获取柱状图模拟数据2",
+        "componentType": "barChart"
+    },
+    {
+        "id": "getPieChartData1",
+        "name": "获取饼状图模拟数据1",
+        "componentType": "pieChart"
+    },
+    {
+        "id": "getPieChartData2",
+        "name": "获取饼状图模拟数据2",
+        "componentType": "pieChart"
+    },
+    {
+        "id": "getTableData1",
+        "name": "获取表格模拟数据1",
+        "componentType": "customTable"
+    },
+    {
+        "id": "getTableData2",
+        "name": "获取表格模拟数据2",
+        "componentType": "customTable"
+    }
+  ]

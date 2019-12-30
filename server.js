@@ -25,6 +25,7 @@ app.use(
 app.use('/export', serveIndex(path.join(__dirname, 'export')));
 app.use('/export', express.static(path.join(__dirname, 'export')));
 app.use(express.static('public'));
+app.use(express.static('mock'));
 
 app.param('appId', (req, res, next, appId) => {
   req.appId = appId;
