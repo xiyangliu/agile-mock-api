@@ -43,7 +43,7 @@ app.post('/publish/:appId/:version', async (req, res) => {
       res.status(400).send({ message: '无效数据' });
     } else {
       const { appId, version } = req;
-      const dest = `./public/data//${appId}/${version}`;
+      const dest = `./public/data/${appId}/${version}`;
       if (req.files) {
         data.mv(`${dest}/data.json`);
       } else {
@@ -55,14 +55,16 @@ app.post('/publish/:appId/:version', async (req, res) => {
         );
       }
 
-      const error = await exportData(appId, version);
+      const { file, error } = await exportData(appId, version);
       if (error) {
         res.status(500).send({ message: '发布失败' });
       } else {
         res.send({
           message: '发布成功',
           appId,
-          version
+          version,
+          url: `${process.env.HOST || 'http://localhost'}:${process.env.PORT ||
+            5000}/${file}`
         });
       }
     }

@@ -2,7 +2,8 @@ const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 
 const exportData = async (appId, version) => {
-  const dest = `${process.cwd()}/export/${appId}_${version}.tar.gz`;
+  const file = `export/${appId}_${version}.tar.gz`;
+  const dest = `${process.cwd()}/${file}`;
   const tmpDir = `${process.cwd()}/export/tmp`;
   await execCommand(`rm ${dest}`);
   await execCommand(
@@ -18,10 +19,11 @@ const exportData = async (appId, version) => {
   await execCommand(`tar -czf ${dest} -C ${tmpDir} . && rm -rf ${tmpDir}`);
   const { stdout: exists } = await execCommand(`ls ${dest}`);
   if (!exists) {
-    const failure = !exists && (error || stderr || stdout || 'Unknown error');
+    const error = !exists && (error || stderr || stdout || 'Unknown error');
     console.error(`${appId} ${version} 发布失败`, failure);
-    return failure;
+    return { error };
   }
+  return { file };
 };
 
 const execCommand = async (...command) => {
